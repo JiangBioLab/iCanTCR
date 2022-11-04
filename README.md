@@ -22,7 +22,7 @@ From Source:
 ```
 
 ### Web
- The iCanTCR program are also provided at the online webserver(http://jianglab.org.cn/iCanTCR)
+ The iCanTCR program is also provided at the online webserver(http://jianglab.org.cn/iCanTCR)
 
 ### Contact
  Feel free to submit an issue or contact us at cyd_charrick@163.com for problems about the package.
