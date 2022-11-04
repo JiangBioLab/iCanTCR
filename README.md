@@ -1,28 +1,24 @@
 # iCanTCR
-A deep learning framework for early cancer detection using T cell receptor repertoire in peripheral blood
+A deep learning framework for early cancer detection using T cell receptor repertoire in peripheral blood.
 <p float="left">
   <img src="Fig/Figure1fff.png"/>
 </p>
-## Standard pipeline of using iCanTCR
 
 ### Installation
 
- From Source:
-
-&nbsp; &nbsp; &nbsp;&nbsp;
-    In Terminal:
+From Source:
 
 ```
-    git clone https://github.com/JiangBioLab/iCanTCR.git
-    cd iCanTCR
-    pip install -r requirements.txt
+ git clone https://github.com/JiangBioLab/iCanTCR.git
+ cd iCanTCR
+ pip install -r requirements.txt
 ```
 
 ### Quick Start
  Using the examples to perform iCanTCR. The first column is the amino acid sequence of CDR3, the second column is the cloning fraction,Each sample contains the sequences with the highest cloning abundance.
    
 ```
-  python --I examples --O output --D cpu
+ python --I examples --O output --D cpu
 ```
 
 
