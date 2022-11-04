@@ -21,6 +21,8 @@ From Source:
  python --I examples --O output --D cpu
 ```
 
+### Web
+ The iCanTCR program are also provided at the online webserver(http://jianglab.org.cn/iCanTCR)
 
 ### Contact
  Feel free to submit an issue or contact us at cyd_charrick@163.com for problems about the package.
