@@ -11,8 +11,6 @@ MAX_AA_LEN = 19
 RNN_INPUTSIZE = 20
 K = 1
 PC = 18
-TOP_N_CDR3 = 50
-FREQ_T = 0.0001
 
 CFG = {  # CNN config
     'cfg00': [16, 'M', 16, 'M'],
@@ -229,7 +227,7 @@ def run_one_sample(seq_list, seq_model, k_model, e_model, is_gpu):
     return pro_vec
 
 
-def multi_run(out_dir, out_name, sample_ids, sample_dict, bina_result, is_gpu):
+def multi_run(out_dir, out_name, sample_ids, sample_dict, bina_result, is_gpu, is_only=False):
 
     def soft_max(inList):
         list_sum = 0
@@ -297,31 +295,44 @@ def multi_run(out_dir, out_name, sample_ids, sample_dict, bina_result, is_gpu):
             sm_prob_v = soft_max(list(score_prob))
             pred_label = np.array(sm_prob_v).argmax()
             pred_class = label_dict[pred_label]
-            if cancer_score < 0.26:
-                pred_class = 'Other Types'
+            if is_only == False:
+                if cancer_score < 0.26:
+                    pred_class = 'Other Types'
             multi_result[s_id] = pred_class
         except RuntimeError as e:
             print(e)
         except:
             multi_result[s_id] = 'Unknown'
 
-    csv_file = 'iCanTCR_{}.csv'.format(out_name)
-    csv_path = str(out_dir) + '/' + str(csv_file)
-    with open(csv_path, 'w') as f:
-        f.write('{}\n'.format('Binary results:'))
-        f.write('{},{}\n'.format('Sample_id', 'Score'))
-        for s_id in sample_ids:
-            try:
-                cancer_score = '%.4f' % bina_result[s_id][0]
-            except:
-                cancer_score = bina_result[s_id][0]
-            f.write('{},{}\n'.format(s_id, str(cancer_score)))
+    if is_only:
+        csv_file = 'iCanTCR_{}_multi.csv'.format(out_name)
+        csv_path = str(out_dir) + '/' + str(csv_file)
+        with open(csv_path, 'w') as f:
+            f.write('{}\n'.format('Multiple results:'))
+            f.write('{},{}\n'.format('Sample_id', 'Pred_class'))
+            for s_id in sample_ids:
+                cancer_type = multi_result[s_id]
+                f.write('{},{}\n'.format(s_id, cancer_type))
+        f.close()
 
-        f.write('\n')
-        f.write('{}\n'.format('Multiple results:'))
-        f.write('{},{}\n'.format('Sample_id', 'Pred_class'))
-        for s_id in sample_ids:
-            cancer_type = multi_result[s_id]
-            f.write('{},{}\n'.format(s_id, cancer_type))
-    f.close()
+    else:
+        csv_file = 'iCanTCR_{}.csv'.format(out_name)
+        csv_path = str(out_dir) + '/' + str(csv_file)
+        with open(csv_path, 'w') as f:
+            f.write('{}\n'.format('Binary results:'))
+            f.write('{},{}\n'.format('Sample_id', 'Score'))
+            for s_id in sample_ids:
+                try:
+                    cancer_score = '%.4f' % bina_result[s_id][0]
+                except:
+                    cancer_score = bina_result[s_id][0]
+                f.write('{},{}\n'.format(s_id, str(cancer_score)))
+
+            f.write('\n')
+            f.write('{}\n'.format('Multiple results:'))
+            f.write('{},{}\n'.format('Sample_id', 'Pred_class'))
+            for s_id in sample_ids:
+                cancer_type = multi_result[s_id]
+                f.write('{},{}\n'.format(s_id, cancer_type))
+        f.close()
     print('multi task done!')
