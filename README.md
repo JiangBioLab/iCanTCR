@@ -66,14 +66,6 @@ name of the input folder and the corresponding prediction result.
 The dataset is first randomly divided into training data and testing data. Then, the training data 
 is further divided into a training set and a validation set for model optimization.
 
-### Reproducibility of results
- You 
-   
-```
- python --I examples --O output --D cpu --T binary  # cpu only
- python --I examples --O output --D gpu --T binary  # if gpu is available
-```
-
 
 ### Contact
  Feel free to submit an issue or contact us at cyd_charrick@163.com for problems about the tool.
