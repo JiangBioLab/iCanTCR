@@ -385,7 +385,7 @@ def covert_para():
 def bina_training(is_gpu=False):
 
     def read_data(path):
-        pd_data = pandas.read_csv(path)
+        pd_data = pd.read_csv(path)
         aa_seqs = pd_data['AA_seq'].values.tolist()
         labels = pd_data['Label'].values.tolist()
 
@@ -453,18 +453,22 @@ def bina_training(is_gpu=False):
 
     lr = 0.001
     batch_size = 64
-    epoch = 2
+    epoch = 70
     s_optimizer = torch.optim.Adam(seq_model.parameters(), lr=lr, weight_decay=0.00001)
     k_optimizer = torch.optim.Adam(k_model.parameters(), lr=lr, weight_decay=0.00001)
     e_optimizer = torch.optim.Adam(e_model.parameters(), lr=lr, weight_decay=0.00001)
     binary_loss_func = nn.CrossEntropyLoss()
 
-    training_x, traning_y = read_data('./data/bina_traning/traning_seq_bina.csv')
-    x_tra, x_val, y_tra, y_val = split_file(training_x, traning_y, test_size=0.1, is_random=True)
-    val_x_b, val_x_k  = map2features(x_val)
+    training_x, training_y = read_data('./data/bina_training/training_seq_bina.csv')
+    x_tra, x_val, y_tra, y_val = split_file(training_x, training_y, test_size=0.1, is_random=True)
+    val_x_b, val_x_k = map2features(x_val)
     val_y_binary = y_val
     train_dataset = DataLoad(x_tra, y_tra, is_gpu)
     train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
+
+    seq_model.train()
+    k_model.train()
+    e_model.train()
 
     # validation
     def validation(test_model, test_input, is_ensemble=False):
@@ -554,7 +558,7 @@ def bina_training(is_gpu=False):
     torch.cuda.empty_cache()
 
     # testing flow
-    testing_x, testing_y = read_data('./data/bina_traning/testing_seq_bina.csv')
+    testing_x, testing_y = read_data('./data/bina_training/testing_seq_bina.csv')
     test_x_b, test_x_k  = map2features(testing_x)
     test_y_binary = testing_y
 
@@ -593,6 +597,7 @@ def bina_training(is_gpu=False):
     test_out([best_seq_model, best_k_model, best_e_model], [test_x_b, test_x_k], 'e', True)
     covert_para()
     print("binary model done!")
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
