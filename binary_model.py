@@ -1,9 +1,15 @@
 # coding: utf-8
+import pandas
 import torch
 from torch import nn
 import my_utils
 import numpy as np
 import math
+import pandas as pd
+from torch.utils.data import Dataset
+from sklearn.model_selection import train_test_split
+from sklearn import metrics
+
 
 torch.manual_seed(102)  # reproducible
 MIN_AA_LEN = 11
@@ -18,7 +24,9 @@ CFG = {  # CNN config
     'cfg03': [64, 'M'],
     'cfg04': [8, 'M', 16, 'M'],
 }
-
+CANCER_3_DICT = np.load('./feature/3mer_abundance.npy', allow_pickle=True)
+CANCER_4_DICT = np.load('./feature/4mer_abundance.npy', allow_pickle=True)
+CANCER_5_DICT = np.load('./feature/5mer_abundance.npy', allow_pickle=True)
 
 def load_aa_pc():
     # 将PCA的内容读取为一个dictionary(key=amino acid， value=list of pc values)
@@ -48,9 +56,9 @@ def get_aaidx_feature(seq, k=1):
 
 # 将序列转化为k_mer的丰度特征
 def get_k_feature(seq, k):
-    CANCER_3_DICT = np.load('./feature/3mer_abundance.npy', allow_pickle=True)
-    CANCER_4_DICT = np.load('./feature/4mer_abundance.npy', allow_pickle=True)
-    CANCER_5_DICT = np.load('./feature/5mer_abundance.npy', allow_pickle=True)
+    # CANCER_3_DICT = np.load('./feature/3mer_abundance.npy', allow_pickle=True)
+    # CANCER_4_DICT = np.load('./feature/4mer_abundance.npy', allow_pickle=True)
+    # CANCER_5_DICT = np.load('./feature/5mer_abundance.npy', allow_pickle=True)
     cancer_l = ['BRCA', 'NSCLC', 'ESCA', 'GBM', 'LIHC', 'SARC', 'MELA', 'PRC', 'BLCA', 'HNSCC', 'MCC', 'healthy']
     k_feature, k_feature2 = [], []
     if k == 3:
@@ -168,8 +176,8 @@ class B_EnsembleModel(nn.Module):
         return out
 
 
-def run_one_sample(seq_list, freq_list, seq_model, k_model, e_model, is_gpu, top_n=50):
-
+def run_one_sample(seq_list, freq_list, seq_model, k_model, e_model, is_gpu):
+    top_n = 50
     def seq2features(all_seqs):
         test_x_b, test_x_k = [], []
         for seq in all_seqs:
@@ -233,7 +241,7 @@ def run_one_sample(seq_list, freq_list, seq_model, k_model, e_model, is_gpu, top
     return weight_score, high_idx
 
 
-def bina_run(sample_dict, is_gpu):
+def bina_run(out_dir, out_name, sample_ids, sample_dict, is_gpu, is_only):
     lr, batch_size = 0.001, 64
     if is_gpu:
         best_seq_model = B_Seq_model().cuda()
@@ -269,5 +277,20 @@ def bina_run(sample_dict, is_gpu):
             print(e)
         except:
             bina_result[s_id] = ['nan', -1]
+
+    if is_only:
+        csv_file = 'iCanTCR_binary_{}.csv'.format(out_name)
+        csv_path = str(out_dir) + '/' + str(csv_file)
+        with open(csv_path, 'w') as f:
+            f.write('{}\n'.format('Binary results:'))
+            f.write('{},{}\n'.format('Sample_id', 'Score'))
+            for s_id in sample_ids:
+                try:
+                    cancer_score = '%.4f' % bina_result[s_id][0]
+                except:
+                    cancer_score = bina_result[s_id][0]
+                f.write('{},{}\n'.format(s_id, str(cancer_score)))
+        f.close()
+
     print('binary task done!')
     return bina_result
