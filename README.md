@@ -1,5 +1,7 @@
 # iCanTCR
 A deep learning framework for early cancer detection using T cell receptor repertoire in peripheral blood.
+In brief, the framework contains two deep learning classifiers, including a binary classification module 
+and a multi-category classification module, and their corresponding cancer scoring strategies. 
 <p float="left">
   <img src="Fig/Figure1fff.png"/>
 </p>
@@ -11,6 +13,12 @@ From Source:
 ```
  git clone https://github.com/JiangBioLab/iCanTCR.git
  cd iCanTCR
+```
+Running the iCanTCR requires python3.6, numpy version 1.19.2, torch version 1.6.0, torchvision version 0.7.0, 
+pandas version 1.1.2 and scikit-learn version 0.24.2 to be installed. If they are not installed on your environment, 
+please run the command:
+
+```
  pip install -r requirements.txt
 ```
 
