@@ -15,7 +15,12 @@ From Source:
 ```
 
 ### Quick Start
- Using the examples to perform iCanTCR. The first column is the amino acid sequence of CDR3, the second column is the cloning fraction,Each sample contains the sequences with the highest cloning abundance.
+ Using the examples to perform iCanTCR. 
+ The examples folder contains 3 files. In each file, the first column is the amino acid sequence 
+ of CDR3, the second column is the cloning fraction,Each sample contains the sequences with the highest 
+ cloning abundance. Now, you can choose one of the following commands based on whether you want to use GPU
+ or not, and input it in the terminal.
+
    
 ```
  python --I examples --O output --D cpu     # cpu only
@@ -29,12 +34,15 @@ From Source:
  python --I examples --O output --D gpu --T binary  # if gpu is available
 ```
 
-Similarity, for multi-classification tasks only.
+Similarly, for multi-classification tasks only.
 
 ```
  python --I examples --O output --D cpu --T multi  # cpu only
  python --I examples --O output --D gpu --T multi  # if gpu is available
 ```
+
+After running the command, an output file under the output folder will be created, which contains 
+name of the input folder and the corresponding prediction result.
 
 ### Web
  The iCanTCR program is also provided at the online webserver(http://jianglab.org.cn/iCanTCR).
@@ -43,10 +51,22 @@ Similarity, for multi-classification tasks only.
  You can train the model using the provided training data with the following command.
    
 ```
- python bina_training.py
- python multi_training.py
+ python bina_training.py # if gpu is available you can add "--D gpu" in the end of this command
+ python multi_training.py # if gpu is available you can add "--D gpu" in the end of this command
 ```
 
+The dataset is first randomly divided into training data and testing data. Then, the training data 
+is further divided into a training set and a validation set for model optimization.
+
+### Reproducibility of results
+ You 
+   
+```
+ python --I examples --O output --D cpu --T binary  # cpu only
+ python --I examples --O output --D gpu --T binary  # if gpu is available
+```
+
+
 ### Contact
- Feel free to submit an issue or contact us at cyd_charrick@163.com for problems about the package.
+ Feel free to submit an issue or contact us at cyd_charrick@163.com for problems about the tool.
 
