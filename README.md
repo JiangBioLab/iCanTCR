@@ -3,7 +3,7 @@ A deep learning framework for early cancer detection using T cell receptor reper
 In brief, the framework contains two deep learning classifiers, including a binary classification module 
 and a multi-category classification module, and their corresponding cancer scoring strategies. 
 <p float="left">
-  <img src="Fig/Figure1fff.png"/>
+  <img src="Fig/icantcr_model.png"/>
 </p>
 
 ### Installation
