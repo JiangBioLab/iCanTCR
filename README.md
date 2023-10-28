@@ -66,6 +66,17 @@ name of the input folder and the corresponding prediction result.
 The dataset is first randomly divided into training data and testing data. Then, the training data 
 is further divided into a training set and a validation set for model optimization.
 
+### Running new data
+  Run iCanTCR on benchmark datasets as an example.
+   
+```
+ cd data
+ unzip sample_data.rar
+ cd ..
+ python --I sample_data/bench_bina --O output --D cpu --T binary  # if gpu is available, set the --D parameter to “gpu”.
+ python --I sample_data/bench_multi --O output --D cpu --T multi  # if gpu is available, set the --D parameter to “gpu”. 
+```
+
 
 ### Contact
  Feel free to submit an issue or contact us at cyd_charrick@163.com for problems about the tool.
