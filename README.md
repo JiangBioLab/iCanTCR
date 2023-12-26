@@ -17,13 +17,14 @@ From Source:
 Running the iCanTCR requires python3.6, numpy version 1.19.2, torch version 1.6.0, torchvision version 0.7.0, 
 pandas version 1.1.2 and scikit-learn version 0.24.2 to be installed. 
 
-If they are not installed on your environment, please first run the command:
+If they are not installed on your environment, please first install numpy, pandas, and scikit-learn
+by running the following command:
 
 ```
  pip install -r requirements.txt
 ```
-Next, Please select the most suitable command from the following options to install PyTorch 
-based on your server’s specific situation:
+Next, Please select the most suitable command from the following options to install torch and torchvision 
+based on your terminal’s specific situation:
 
 For OSX:
 ```
@@ -55,22 +56,22 @@ pip install torch==1.6.0+cpu torchvision==0.7.0+cpu -f https://download.pytorch.
 
    
 ```
- python --I examples --O output --D cpu     # cpu only
- python --I examples --O output --D gpu     # if gpu is available
+ python -u iCanTCR_run.py --I examples --O output --D cpu     # cpu only
+ python -u iCanTCR_run.py --I examples --O output --D gpu     # if gpu is available
 ```
 
  If you want to perform binary classification tasks only, please run the following command.
    
 ```
- python --I examples --O output --D cpu --T binary  # cpu only
- python --I examples --O output --D gpu --T binary  # if gpu is available
+ python -u iCanTCR_run.py --I examples --O output --D cpu --T binary  # cpu only
+ python -u iCanTCR_run.py --I examples --O output --D gpu --T binary  # if gpu is available
 ```
 
 Similarly, for multi-classification tasks only.
 
 ```
- python --I examples --O output --D cpu --T multi  # cpu only
- python --I examples --O output --D gpu --T multi  # if gpu is available
+ python -u iCanTCR_run.py --I examples --O output --D cpu --T multi  # cpu only
+ python -u iCanTCR_run.py --I examples --O output --D gpu --T multi  # if gpu is available
 ```
 
 After running the command, an output file under the output folder will be created, which contains 
@@ -97,8 +98,8 @@ is further divided into a training set and a validation set for model optimizati
  cd data
  unzip sample_data.rar
  cd ..
- python --I sample_data/bench_bina --O output --D cpu --T binary  # if gpu is available, set the --D parameter to “gpu”.
- python --I sample_data/bench_multi --O output --D cpu --T multi  # if gpu is available, set the --D parameter to “gpu”. 
+ python -u iCanTCR_run.py --I sample_data/bench_bina --O output --D cpu --T binary  # if gpu is available, set the --D parameter to “gpu”.
+ python -u iCanTCR_run.py --I sample_data/bench_multi --O output --D cpu --T multi  # if gpu is available, set the --D parameter to “gpu”. 
 ```
 
 
