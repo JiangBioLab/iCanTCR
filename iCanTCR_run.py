@@ -31,6 +31,7 @@ def read_file(file_path):
             try:
                 freq = float(items[1])
             except Exception as e:
+                print("Clonal frequency is not a numeric type, please check your input file")
                 continue
             if aa_seq[0] != 'C' or aa_seq[-1] != 'F':
                 continue

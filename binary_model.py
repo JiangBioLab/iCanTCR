@@ -178,6 +178,7 @@ class B_EnsembleModel(nn.Module):
 
 def run_one_sample(seq_list, freq_list, seq_model, k_model, e_model, is_gpu):
     top_n = 50
+
     def seq2features(all_seqs):
         test_x_b, test_x_k = [], []
         for seq in all_seqs:

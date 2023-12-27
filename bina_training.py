@@ -1,4 +1,7 @@
 # coding: utf-8
+import os
+import sys
+
 import pandas
 import torch
 from torch import nn
@@ -384,6 +387,9 @@ def covert_para():
 
 def bina_training(is_gpu=False):
 
+    if os.path.exists("./saved_pkl/temp_pkl") == False:
+        os.mkdir("./saved_pkl/temp_pkl/")
+
     def read_data(path):
         pd_data = pd.read_csv(path)
         aa_seqs = pd_data['AA_seq'].values.tolist()
@@ -559,7 +565,7 @@ def bina_training(is_gpu=False):
 
     # testing flow
     testing_x, testing_y = read_data('./data/bina_training/testing_seq_bina.csv')
-    test_x_b, test_x_k  = map2features(testing_x)
+    test_x_b, test_x_k = map2features(testing_x)
     test_y_binary = testing_y
 
     def test_out(test_model, test_input, model_name, is_ensemble=False):

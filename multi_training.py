@@ -9,6 +9,7 @@ from sklearn.model_selection import train_test_split
 import time
 from sklearn.metrics import f1_score
 from torch.utils.data import Dataset
+import os
 
 torch.manual_seed(102)  # reproducible
 
@@ -385,6 +386,10 @@ def covert_para_m():
 
 
 def multi_run(is_gpu=False):
+
+    if os.path.exists("./saved_pkl/temp_pkl") == False:
+        os.mkdir("./saved_pkl/temp_pkl/")
+
     cancer_list = ['BRCA', 'BLCA', 'LIHC', 'NSCLC', 'SARC', 'MELA', 'OT']
     CANCER_LABEL = {  # cancer label
         'BRCA': 0,
@@ -609,7 +614,7 @@ def multi_run(is_gpu=False):
 
     test_out([best_seq_model, best_k_model, best_e_model], [test_x_b, test_x_k], 'e', True)
     covert_para_m()
-    print("binary model done!")
+    print("multi model done!")
 
 
 if __name__ == '__main__':

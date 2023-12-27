@@ -21,6 +21,10 @@ CFG = {  # CNN config
 }
 out_nodes = 7
 
+CANCER_3_DICT = np.load('./feature/3mer_abundance.npy', allow_pickle=True)
+CANCER_4_DICT = np.load('./feature/4mer_abundance.npy', allow_pickle=True)
+CANCER_5_DICT = np.load('./feature/5mer_abundance.npy', allow_pickle=True)
+
 
 def load_aa_pc():
     # 将PCA的内容读取为一个dictionary(key=amino acid， value=list of pc values)
@@ -42,9 +46,6 @@ def load_aa_pc():
 
 # 将序列转化为k_mer的丰度特征
 def get_k_feature(seq, k):
-    CANCER_3_DICT = np.load('./feature/3mer_abundance.npy', allow_pickle=True)
-    CANCER_4_DICT = np.load('./feature/4mer_abundance.npy', allow_pickle=True)
-    CANCER_5_DICT = np.load('./feature/5mer_abundance.npy', allow_pickle=True)
 
     cancer_l = ['BRCA', 'NSCLC', 'ESCA', 'GBM', 'LIHC', 'SARC', 'MELA', 'PRC', 'BLCA', 'HNSCC', 'MCC']
     k_feature, k_feature2 = [], []
@@ -264,6 +265,7 @@ def multi_run(out_dir, out_name, sample_ids, sample_dict, bina_result, is_gpu, i
         seq_state_dict = torch.load('./trained_model/ms_{}_{}_dict.pkl'.format(lr, batch_size), map_location='cpu')
         k_state_dict = torch.load('./trained_model/mk_{}_{}_dict.pkl'.format(lr, batch_size), map_location='cpu')
         e_state_dict = torch.load('./trained_model/me_{}_{}_dict.pkl'.format(lr, batch_size), map_location='cpu')
+
 
     best_seq_model.load_state_dict(seq_state_dict)
     best_k_model.load_state_dict(k_state_dict)
