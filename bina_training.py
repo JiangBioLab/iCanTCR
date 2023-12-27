@@ -387,8 +387,9 @@ def covert_para():
 
 def bina_training(is_gpu=False):
 
-    if os.path.exists("./saved_pkl/temp_pkl") == False:
-        os.mkdir("./saved_pkl/temp_pkl/")
+    if not os.path.exists("./saved_pkl/temp_pkl"):
+        os.system('mkdir ' + "./saved_pkl")
+        os.system('mkdir ' + "./saved_pkl/temp_pkl/")
 
     def read_data(path):
         pd_data = pd.read_csv(path)

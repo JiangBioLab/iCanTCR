@@ -387,8 +387,9 @@ def covert_para_m():
 
 def multi_run(is_gpu=False):
 
-    if os.path.exists("./saved_pkl/temp_pkl") == False:
-        os.mkdir("./saved_pkl/temp_pkl/")
+    if not os.path.exists("./saved_pkl/temp_pkl"):
+        os.system('mkdir ' + "./saved_pkl")
+        os.system('mkdir ' + "./saved_pkl/temp_pkl/")
 
     cancer_list = ['BRCA', 'BLCA', 'LIHC', 'NSCLC', 'SARC', 'MELA', 'OT']
     CANCER_LABEL = {  # cancer label
