@@ -255,16 +255,16 @@ def multi_run(out_dir, out_name, sample_ids, sample_dict, bina_result, is_gpu, i
         best_seq_model = M_Seq_model().cuda()
         best_k_model = M_K_model().cuda()
         best_e_model = M_EnsembleModel().cuda()
-        seq_state_dict = torch.load('./trained_model/ms_{}_{}_dict.pkl'.format(lr, batch_size))
-        k_state_dict = torch.load('./trained_model/mk_{}_{}_dict.pkl'.format(lr, batch_size))
-        e_state_dict = torch.load('./trained_model/me_{}_{}_dict.pkl'.format(lr, batch_size))
+        seq_state_dict = torch.load('./saved_model/ms_{}_{}_dict.pkl'.format(lr, batch_size))
+        k_state_dict = torch.load('./saved_model/mk_{}_{}_dict.pkl'.format(lr, batch_size))
+        e_state_dict = torch.load('./saved_model/me_{}_{}_dict.pkl'.format(lr, batch_size))
     else:
         best_seq_model = M_Seq_model()
         best_k_model = M_K_model()
         best_e_model = M_EnsembleModel()
-        seq_state_dict = torch.load('./trained_model/ms_{}_{}_dict.pkl'.format(lr, batch_size), map_location='cpu')
-        k_state_dict = torch.load('./trained_model/mk_{}_{}_dict.pkl'.format(lr, batch_size), map_location='cpu')
-        e_state_dict = torch.load('./trained_model/me_{}_{}_dict.pkl'.format(lr, batch_size), map_location='cpu')
+        seq_state_dict = torch.load('./saved_model/ms_{}_{}_dict.pkl'.format(lr, batch_size), map_location='cpu')
+        k_state_dict = torch.load('./saved_model/mk_{}_{}_dict.pkl'.format(lr, batch_size), map_location='cpu')
+        e_state_dict = torch.load('./saved_model/me_{}_{}_dict.pkl'.format(lr, batch_size), map_location='cpu')
 
 
     best_seq_model.load_state_dict(seq_state_dict)
